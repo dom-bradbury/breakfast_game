@@ -56,24 +56,19 @@ class Choice(object):
 
     def choice(self):
 
-        p_a_index = range(0, len(self.possible_answers))  # possible answer index list
-        p_a_nums = list(map(str, range(1, len(self.possible_answers) + 1)))
+        answer_dict = {i + 1: j for i, j in enumerate(self.possible_answers)}
+        response_dict = {i: j for i, j in enumerate(self.responses)}
 
         while True:
+            print(answer_dict)
+            for key, val in answer_dict.items():
+                print("%d: %s" % (key, val))
 
-            for i in p_a_index:
-                print("%d: %s" % (i + 1, self.possible_answers[i]))
+            answer = int(input("> "))
 
-            answer = input("> ")
-
-            if answer not in self.possible_answers + p_a_nums:
-                print(self.responses[-1])
+            if answer not in answer_dict:
+                print(response_dict[0])
                 continue
 
-            for i in p_a_index:
-
-                if answer == self.possible_answers[i] or answer == p_a_nums[i]:
-                    print(self.responses[i])
-                    break
-
-            return i + 1
+            print(response_dict[answer])
+            return answer

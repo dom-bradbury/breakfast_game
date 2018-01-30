@@ -12,9 +12,9 @@ class Intro(Scene):
         print("What do you do next?\n")
         possible_answers = ['Go back to sleep',
                             'Stumble outside']
-        responses = ['You snuggle down with the nearest donkey',
-                     '...'
-                     'Ugh']
+        responses = ['Ugh',
+                     'You snuggle down with the nearest donkey',
+                     '...']
 
         path = Choice(possible_answers, responses).choice()
         if path == 1: return Intro()
