@@ -1,4 +1,4 @@
-from breakfast_game.engine import Engine, Scene, Choice, Location, LocationSelector
+from breakfast_game.engine import Engine, Scene, Choice, Location, LocationSelector, bcolors
 
 
 class Intro(Scene):
@@ -19,7 +19,6 @@ class Intro(Scene):
         path = Choice(possible_answers, responses, error_response).choice()
         if path == 1: return Intro()
         if path == 2: return Market()
-        print('iehdihwefiuhwiufeh')
 
 
 class Market(Scene):
@@ -41,6 +40,33 @@ class Butcher(Location):
     def __init__(self):
         Location.__init__(self, 'Butcher')
 
+    def enter(self):
+        print(bcolors.OKGREEN + '"A customer! A customer! What a glorious day!"' + bcolors.ENDC)
+        print('"Take a look at my fine sausages, they are they best in town"')
+        print('What would you like?')
+
+        possible_answers = ['Sausage',
+                            'Bacon']
+        responses = ['Ohh, good choice!\n',
+                     'I recommend you cook it extra crispy\n']
+        error_response = '"I should really make a decision"\n'
+
+        meat_choice = Choice(possible_answers, responses, error_response).choice()
+        meat = possible_answers[meat_choice-1]
+
+        possible_answers = ['Apologise and leave',
+                            'Steal the %s!' % meat]
+        responses = ['Pfft, go eat breadcrumbs like a little pigeon you worthless wretch\n',
+                     'GUARDS! GUARDS! He has stolen my %s!\n' % meat]
+        error_response = '"I should really make a decision"\n'
+
+        response = Choice(possible_answers, responses, error_response).choice()
+
+        if response == 2:
+            game.obtain_item(meat)
+
+        return Market()
+
 
 class Baker(Location):
     name = 'Baker'
@@ -54,7 +80,6 @@ class Tavern(Location):
 
     def __init__(self):
         Location.__init__(self, 'Tavern')
-
 
 
 print('Welcome to Baconia!\n')
