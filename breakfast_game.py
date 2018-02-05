@@ -1,4 +1,4 @@
-from breakfast_game.engine import Engine, Scene, Choice, Location
+from breakfast_game.engine import Engine, Scene, Choice, Location, LocationSelector
 
 
 class Intro(Scene):
@@ -12,13 +12,14 @@ class Intro(Scene):
         print("What do you do next?\n")
         possible_answers = ['Go back to sleep',
                             'Stumble outside']
-        responses = ['Wrong answer',
-                     'You snuggle down with the nearest donkey',
-                     'Got to market']
+        responses = ['You snuggle down with the nearest donkey\n',
+                     'You stumble out of the stable door into the blinding light of the day\n']
+        error_response = '"I should really make a decision"\n'
 
-        path = Choice(possible_answers, responses).choice()
+        path = Choice(possible_answers, responses, error_response).choice()
         if path == 1: return Intro()
         if path == 2: return Market()
+        print('iehdihwefiuhwiufeh')
 
 
 class Market(Scene):
@@ -30,20 +31,26 @@ class Market(Scene):
         game.unlock_location(Baker)
         game.unlock_location(Tavern)
 
+        path = LocationSelector(game).choose_location()
+        return path()
+
 
 class Butcher(Location):
+    name = 'Butcher'
 
     def __init__(self):
         Location.__init__(self, 'Butcher')
 
 
 class Baker(Location):
+    name = 'Baker'
 
     def __init__(self):
         Location.__init__(self, 'Baker')
 
 
 class Tavern(Location):
+    name = 'Tavern'
 
     def __init__(self):
         Location.__init__(self, 'Tavern')
