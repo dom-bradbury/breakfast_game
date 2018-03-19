@@ -1,5 +1,22 @@
 from breakfast_game.engine import Engine, Scene, Choice, Location, LocationSelector, bcolors
 
+'''
+whole execution needs to loop within read_input
+
+python breakfast_game.py
+
+-- game=Game
+-- p=process(game.play())
+-- p.start()
+        adds print output to html variable as it goes
+        if reaches 'input', clears queue and go onto wait loop
+        fetches input value from input queue
+
+--app.run()
+        when user inputs value, add to queue variable
+
+'''
+
 
 class Intro(Scene):
 
@@ -22,7 +39,6 @@ class Intro(Scene):
 
 
 class Market(Scene):
-
     def enter(self):
         print("Market")
 
@@ -82,7 +98,8 @@ class Tavern(Location):
         Location.__init__(self, 'Tavern')
 
 
-print('Welcome to Baconia!\n')
-scene = Intro()
-game = Engine(scene)
-game.play()
+if __name__ == '__main__':
+    print('Welcome to Baconia!\n')
+    scene = Intro()
+    game = Engine(scene)
+    game.play()
