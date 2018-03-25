@@ -1,19 +1,43 @@
+
+
 class Engine(object):
-    def __init__(self, scene):
-        self.scene = scene
-        self.opening_scene = scene
+    def __init__(self, flask=False):
+        self.scene = None
         self.locations = []
         self.items = []
+        self.flask = flask
+        self.i = None
+        self.o = None
+        self.w = None
 
-    def play(self):
-        current_scene = self.scene
+    def game_input(self):
+        if self.flask:
+            self.w.put('Waiting')
+            input_str = ''
+            while input_str == '':
+                input_str = self.i.get()
+        else:
+            input_str = input("> ")
+        return input_str
+
+    def game_output(self, output_str):
+        if self.flask:
+            self.o.put(output_str)
+        else:
+            print(output_str)
+
+    def play(self, opening_scene, i, o, w):
+        self.i = i
+        self.o = o
+        self.w = w
+        current_scene = opening_scene
 
         while True:
             new_scene = current_scene.enter()
             if new_scene:
                 current_scene = new_scene
             else:
-                current_scene = self.opening_scene
+                current_scene = opening_scene
 
     def unlock_location(self, location):
 
@@ -50,14 +74,21 @@ class bcolors:
 
 class Scene(object):
 
+    def __init__(self, game=None):
+        if game:
+            self.game_output = game.game_output
+        else:
+            self.game_output = print
+
     def enter(self):
-        print("This scene hasn't been written yet\n")
+        self.game_output("This scene hasn't been written yet\n")
         return None
 
 
 class Location(Scene):
 
-    def __init__(self, name, visible=1):
+    def __init__(self, name, game, visible=1):
+        Scene.__init__(self, game)
         self.name = name
         self.visible = visible
 
@@ -75,19 +106,19 @@ class Selector(object):
         self.response_dict = response_dict
         self.error_response = error_response
 
-    def choice(self):
+    def choice(self, game):
 
         while True:
             for key, val in self.option_dict.items():
-                print("%d: %s" % (key, val))
+                game.game_output("%d: %s" % (key, val))
 
-            answer = int(input("> "))
+            answer = int(game.game_input())
 
             if answer not in self.option_dict:
-                print(self.error_response)
+                game.game_output(self.error_response)
                 continue
 
-            print(self.response_dict[answer])
+            game.game_output(self.response_dict[answer])
             return answer
 
 
@@ -99,9 +130,9 @@ class LocationSelector(Selector):
         self.error_response = 'You can''t go there yet'
         Selector.__init__(self, self.location_dict, self.location_dict, self.error_response)
 
-    def choose_location(self):
-        print('Where would you like to go next?\n')
-        next_location = self.choice() - 1
+    def choose_location(self, game):
+        game.game_output('Where would you like to go next?\n')
+        next_location = self.choice(game) - 1
         return self.locations[next_location]
 
 
