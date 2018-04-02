@@ -16,11 +16,10 @@ s = True
 @app.route("/")
 def main():
     print('executing main')
-    session['output'] = ''
-    session['listy'] = []
-    print(session['listy'])
-    session['listy'].append('Hello')
-    print(session['listy'])
+    session['output'] = []
+    print(session['output'])
+    session['output'].append('Hello')
+    print(session['output'])
     return redirect((url_for('read_input')))
 
 
@@ -34,14 +33,11 @@ def refresh():
 def read_input():
     print('executing read_input')
 
-    print(o.empty())
-    print(w.empty())
-
     if o.empty() is False:
         output = o.get()
-        session['listy'].append(output)
-        session['listy'] = session['listy'][-15:]
-        html_output = '<p' + '</p><p>'.join(session['listy']) + '</p>'
+        session['output'].append(output)
+        session['output'] = session['output'][-15:]
+        html_output = '<p' + '</p><p>'.join(session['output']) + '</p>'
         if refresh():
             session['refresh'] = '<meta http-equiv="refresh" content="1" >'
         else:
@@ -51,14 +47,9 @@ def read_input():
     # read the posted values from the UI
     input = request.form['userinput']
     i.put(input)
-    session['listy'].append(input)
-    session['listy'] = session['listy'][-15:]
-    html_output = '<p' + '</p><p>'.join(session['listy']) + '</p>'
-
-    if refresh():
-        session['refresh'] = '<meta http-equiv="refresh" content="1" >'
-    else:
-        session['refresh'] = ''
+    session['output'].append(input)
+    session['output'] = session['output'][-15:]
+    html_output = '<p' + '</p><p>'.join(session['output']) + '</p>'
 
     return render_template('breakfast_game.html', output=html_output, refresh=session['refresh'])
 
