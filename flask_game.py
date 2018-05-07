@@ -50,6 +50,7 @@ def read_input():
     session['output'].append(input)
     session['output'] = session['output'][-15:]
     html_output = '<p' + '</p><p>'.join(session['output']) + '</p>'
+    session['refresh'] = '<meta http-equiv="refresh" content="1" >'
 
     return render_template('breakfast_game.html', output=html_output, refresh=session['refresh'])
 
