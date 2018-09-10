@@ -1,1 +1,1 @@
-web: python flask_game.py
+web: gunicorn breakfast_game:app
