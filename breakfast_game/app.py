@@ -1,4 +1,3 @@
-// /app.py
 from flask import Flask, render_template, request, session, redirect, url_for
 from multiprocessing import Process, Queue
 from time import sleep
