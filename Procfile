@@ -1,1 +1,1 @@
-web: gunicorn breakfast_game:app
+web: gunicorn breakfast_game.app:app
