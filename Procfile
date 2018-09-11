@@ -1,1 +1,1 @@
-web: gunicorn -b localhost:8000 --workers=3 --chdir ./breakfast_game app:app
+web: uwsgi uwsgi.ini
