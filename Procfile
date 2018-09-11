@@ -1,1 +1,1 @@
-web: gunicorn --chdir ./breakfast_game wsgi:app
+web: gunicorn -b localhost:8000 --workers=3 --chdir ./breakfast_game app:app
