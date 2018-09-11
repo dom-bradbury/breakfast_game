@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from multiprocessing import Process, Queue
 from time import sleep
-import breakfast_game.breakfast_game as bg
+import breakfast_game as bg
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Your Secret Key'
-app.template_folder = 'breakfast_game/templates'
+app.template_folder = 'templates'
 
 i = Queue()
 o = Queue()
@@ -28,6 +29,7 @@ def refresh():
         return False
     else:
         return True
+
 
 @app.route('/game', methods=['GET', 'POST'])
 def read_input():
@@ -60,6 +62,7 @@ if __name__ == "__main__":
 
     game_process.start()
 
-    app.run()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
 
     print('Will I ever be executed?')

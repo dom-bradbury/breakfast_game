@@ -1,1 +1,1 @@
-web: gunicorn breakfast_game.app:app
+web: python breakfast_game/app.py

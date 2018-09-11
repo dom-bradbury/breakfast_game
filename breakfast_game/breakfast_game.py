@@ -1,4 +1,4 @@
-from .engine import Engine, Scene, Choice, Location, LocationSelector, bcolors
+from engine import Engine, Scene, Choice, Location, LocationSelector, bcolors
 
 '''
 whole execution needs to loop within read_input
