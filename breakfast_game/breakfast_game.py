@@ -1,4 +1,4 @@
-from engine import Engine, Scene, Choice, Location, LocationSelector, bcolors
+from breakfast_game.engine import Engine, Scene, Choice, Location, LocationSelector, bcolors
 
 '''
 whole execution needs to loop within read_input
@@ -99,7 +99,7 @@ class Tavern(Location):
 
 
 def main(i,o,w):
-    #game.game_output('Welcome to Baconia!\n')
+    print('Executing breakfast_game main')
     game.play(Intro(game), i, o, w)
 
 

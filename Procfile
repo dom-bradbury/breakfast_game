@@ -1,1 +1,1 @@
-web: python breakfast_game/app.py
+web: gunicorn app:app --log-file=-
